@@ -28,7 +28,6 @@
 <p>Дата: ${date}</p>
 <h2>${path}</h2>
 <hr/>
-<a href="<c:url value='${url}.jsp' />">${url}</a>
 <c:url value="" var="upUrl">
     <c:param name="path" value="${parentDirPath}"/>
 </c:url>
