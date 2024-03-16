@@ -1,55 +1,50 @@
 package com.example.servlet;
 
-import com.example.model.UserProfile;
 import com.example.service.AccountService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
+import java.nio.channels.AcceptPendingException;
+import java.util.Dictionary;
 
-@WebServlet("/")
-public class LogInServlet extends HttpServlet {
-    private AccountService accountService = new AccountService();
+@WebServlet("/signup")
+public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = (String) req.getSession().getAttribute("login");
-        String password = (String) req.getSession().getAttribute("password");
-
-        if (login == null || password == null) {
-            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
-            return;
-        }
-
-        resp.sendRedirect("listing?path=D:/filemanager/" + login);
+        getServletContext().getRequestDispatcher("/signup.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
+        String email = req.getParameter("email");
 
-        if (login.isEmpty() || password.isEmpty()) {
+        if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
             resp.getWriter().write("Invalid input");
             return;
         }
 
-        UserProfile user = accountService.getUserByLogin(login);
-        if (user == null) {
-            resp.getWriter().write("No such user");
+        if(AccountService.getUserByLogin(login) != null) {
+            resp.getWriter().write("User with login" + login + " already exists");
             return;
         }
 
-        if(!password.equals(user.getPassword())) {
-            resp.getWriter().write("Invalid password");
+        File dir = new File("D:\\filemanager\\" + login);
+        if(!dir.mkdir()) {
+            resp.getWriter().write("Cannot create directory with name " + login);
             return;
         }
+        AccountService.register(login, password, email);
 
         req.getSession().setAttribute("login", login);
         req.getSession().setAttribute("password", password);
+
         resp.sendRedirect("listing?path=D:/filemanager/" + login);
     }
 }

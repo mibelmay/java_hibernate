@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Log in</title>
+    <title>Sign up</title>
     <style>
         body {
             line-height: 1.5;
@@ -17,8 +17,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>Sign in</h1>
-    <form action="<%=request.getContextPath()%>/signin" method="post">
+    <h1>Sign up</h1>
+    <form action="<%=request.getContextPath()%>/signup" method="post">
         <table style="with: 100%">
             <tr>
                 <td>Login</td>

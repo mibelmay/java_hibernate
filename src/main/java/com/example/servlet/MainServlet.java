@@ -14,7 +14,7 @@ import com.example.model.FileInfo;
 
 @WebServlet("/listing")
 public class MainServlet extends HttpServlet {
-    private static final String ROOT_DIRECTORY = "D:\\2 КУРС";
+    private static final String ROOT_DIRECTORY = "D:\\filemanager";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getParameter("path");
@@ -29,7 +29,7 @@ public class MainServlet extends HttpServlet {
             }
         }
         String parentDirPath = new File(path).getParent();
-        if (parentDirPath == null) {
+        if (parentDirPath == null || parentDirPath.equals(ROOT_DIRECTORY)) {
             parentDirPath = path;
         }
         req.setAttribute("parentDirPath", parentDirPath);
@@ -38,5 +38,13 @@ public class MainServlet extends HttpServlet {
         req.setAttribute("files", files);
 
         getServletContext().getRequestDispatcher("/listing.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getSession().removeAttribute("login");
+        req.getSession().removeAttribute("password");
+
+        getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 }

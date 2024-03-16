@@ -31,7 +31,7 @@
         </table>
         <input type="submit" value="Submit"/>
     </form>
-    <a href="<%=request.getContextPath()%>/signin">Sign in</a>
+    <a href="<%=request.getContextPath()%>/signup">Sign in</a>
 </div>
 </body>
 </html>

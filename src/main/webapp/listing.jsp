@@ -22,11 +22,21 @@
             background-color: #f2f2f2;
             color: #333;
         }
+        .logout {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
 <p>Дата: ${date}</p>
 <h2>${path}</h2>
+
+<form method="post" action="listing">
+    <button class="logout" type="submit">Log out</button>
+</form>
+
 <hr/>
 <c:url value="" var="upUrl">
     <c:param name="path" value="${parentDirPath}"/>
