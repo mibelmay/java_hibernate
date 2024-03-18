@@ -2,8 +2,6 @@ package com.example.servlet;
 
 import com.example.model.UserProfile;
 import com.example.service.AccountService;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +11,7 @@ import java.io.IOException;
 
 @WebServlet("/")
 public class LogInServlet extends HttpServlet {
-    private AccountService accountService = new AccountService();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = (String) req.getSession().getAttribute("login");
@@ -32,12 +30,7 @@ public class LogInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        if (login.isEmpty() || password.isEmpty()) {
-            resp.getWriter().write("Invalid input");
-            return;
-        }
-
-        UserProfile user = accountService.getUserByLogin(login);
+        UserProfile user = AccountService.getUserByLogin(login);
         if (user == null) {
             resp.getWriter().write("No such user");
             return;

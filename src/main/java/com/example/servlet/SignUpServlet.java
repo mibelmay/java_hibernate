@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.nio.channels.AcceptPendingException;
-import java.util.Dictionary;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
@@ -24,11 +22,6 @@ public class SignUpServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         String email = req.getParameter("email");
-
-        if (login.isEmpty() || password.isEmpty() || email.isEmpty()) {
-            resp.getWriter().write("Invalid input");
-            return;
-        }
 
         if(AccountService.getUserByLogin(login) != null) {
             resp.getWriter().write("User with login" + login + " already exists");

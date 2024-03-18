@@ -19,7 +19,7 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getParameter("path");
         if (path == null || path.isEmpty()) {
-            path = ROOT_DIRECTORY;
+            resp.sendRedirect("/");
         }
         ArrayList<FileInfo> files = new ArrayList<>();
         File directory = new File(path);

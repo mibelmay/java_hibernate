@@ -22,16 +22,16 @@
         <table style="with: 100%">
             <tr>
                 <td>Login</td>
-                <td><input type="text" name="login" /></td>
+                <td><input required type="text" name="login" /></td>
             </tr>
             <tr>
                 <td>Password</td>
-                <td><input type="password" name="password" /></td>
+                <td><input required type="password" name="password" /></td>
             </tr>
         </table>
         <input type="submit" value="Submit"/>
     </form>
-    <a href="<%=request.getContextPath()%>/signup">Sign in</a>
+    <a href="<%=request.getContextPath()%>/signup">Sign up</a>
 </div>
 </body>
 </html>
