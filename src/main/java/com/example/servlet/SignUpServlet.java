@@ -14,6 +14,12 @@ import java.io.IOException;
 public class SignUpServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String login = (String) req.getSession().getAttribute("login");
+
+        if (login != null) {
+            resp.sendRedirect("listing?path=D:/filemanager/" + login);
+            return;
+        }
         getServletContext().getRequestDispatcher("/signup.jsp").forward(req, resp);
     }
 

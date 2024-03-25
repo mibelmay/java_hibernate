@@ -13,7 +13,9 @@ public class FileInfo {
         return file.isDirectory();
     }
     public String path () {
-        return file.getPath();
+        String temp = file.getPath();
+        temp.replace('\\', '/');
+        return temp;
     }
     public String size() {
         if(file.isDirectory()) {

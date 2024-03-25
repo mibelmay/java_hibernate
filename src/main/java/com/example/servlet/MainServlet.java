@@ -14,12 +14,18 @@ import com.example.model.FileInfo;
 
 @WebServlet("/listing")
 public class MainServlet extends HttpServlet {
-    private static final String ROOT_DIRECTORY = "D:\\filemanager";
+    private static final String ROOT_DIRECTORY = "D:/filemanager";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path = req.getParameter("path");
+        String login = (String) req.getSession().getAttribute("login");
+
+        String path = req.getParameter("path").replace('\\', '/');
         if (path == null || path.isEmpty()) {
             resp.sendRedirect("/");
+        }
+
+        if (!path.startsWith("D:/filemanager/" + login)) {
+            path = ROOT_DIRECTORY + "/" + login;
         }
         ArrayList<FileInfo> files = new ArrayList<>();
         File directory = new File(path);

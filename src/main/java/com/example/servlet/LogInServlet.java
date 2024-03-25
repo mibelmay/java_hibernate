@@ -15,9 +15,8 @@ public class LogInServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = (String) req.getSession().getAttribute("login");
-        String password = (String) req.getSession().getAttribute("password");
 
-        if (login == null || password == null) {
+        if (login == null) {
             getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
             return;
         }
@@ -42,7 +41,6 @@ public class LogInServlet extends HttpServlet {
         }
 
         req.getSession().setAttribute("login", login);
-        req.getSession().setAttribute("password", password);
         resp.sendRedirect("listing?path=D:/filemanager/" + login);
     }
 }
