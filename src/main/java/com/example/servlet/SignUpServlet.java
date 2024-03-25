@@ -41,8 +41,8 @@ public class SignUpServlet extends HttpServlet {
         }
         AccountService.register(login, password, email);
 
+
         req.getSession().setAttribute("login", login);
-        req.getSession().setAttribute("password", password);
 
         resp.sendRedirect("listing?path=D:/filemanager/" + login);
     }
