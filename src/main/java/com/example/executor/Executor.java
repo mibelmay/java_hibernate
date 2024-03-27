@@ -16,4 +16,19 @@ public class Executor {
             System.out.println(e.getMessage());
         }
     }
+
+    public <T> T execQuery(String query,
+                           ResultHandler<T> handler){
+        try(Statement stmt = connection.createStatement()) {
+            stmt.execute(query);
+            ResultSet result = stmt.getResultSet();
+            T value = handler.handle(result);
+            result.close();
+            return value;
+        }
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

@@ -21,6 +21,14 @@ public class DBService {
             throw new RuntimeException(e);
         }
     }
+
+    public UserProfile getUserByLogin(String login) {
+        try {
+            return new UsersDAO(connection).getUserByLogin(login);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public static Connection getConnection() {
         try {
             Class.forName("org.postgresql.Driver");
