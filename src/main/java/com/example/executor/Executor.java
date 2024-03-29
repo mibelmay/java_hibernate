@@ -9,18 +9,20 @@ public class Executor {
         this.connection = connection;
     }
 
-    public void execUpdate(String update) {
-        try (Statement stmt = connection.createStatement()) {
-            stmt.execute(update);
+    public void execUpdate(String update, StatementPreparer preparer) {
+        try (var stmt = connection.prepareStatement(update)) {
+            preparer.prepare(stmt);
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public <T> T execQuery(String query,
+    public <T> T execQuery(String query, StatementPreparer preparer,
                            ResultHandler<T> handler){
-        try(Statement stmt = connection.createStatement()) {
-            stmt.execute(query);
+        try(var stmt = connection.prepareStatement(query)) {
+            preparer.prepare(stmt);
+            stmt.executeQuery();
             ResultSet result = stmt.getResultSet();
             T value = handler.handle(result);
             result.close();

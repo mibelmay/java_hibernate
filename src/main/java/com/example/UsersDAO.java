@@ -13,12 +13,19 @@ public class UsersDAO {
         this.executor = new Executor(connection);
     }
 
-    public void insertUser(String login, String password, String email) throws  SQLException{
-        executor.execUpdate("insert into users (login, pass, email) values ('" + login +"', '"+password+"', '"+email+"')");
+    public void insertUser(String login, String password, String email) throws SQLException{
+        executor.execUpdate(
+                "insert into users (login, pass, email) values (?, ?, ?)",
+                statement -> {
+                    statement.setString(1, login);
+                    statement.setString(2, password);
+                    statement.setString(3, email);
+                });
     }
 
     public UserProfile getUserByLogin(String login) throws SQLException {
-        return executor.execQuery("select * from users where login='" + login +"'",
+        return executor.execQuery("select * from users where login=?",
+                (statement) -> statement.setString(1, login),
                 (resultSet) -> {
             resultSet.next();
             return new UserProfile(
