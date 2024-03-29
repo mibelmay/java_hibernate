@@ -1,6 +1,7 @@
 package com.example.servlet;
 
-import com.example.service.AccountService;
+import com.example.model.UserProfile;
+import com.example.service.DBService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +30,8 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
 
-        if(AccountService.getUserByLogin(login) != null) {
+        //if(AccountService.getUserByLogin(login) != null) {
+        if(DBService.getUserByLogin(login) != null) {
             resp.getWriter().write("User with login" + login + " already exists");
             return;
         }
@@ -39,8 +41,8 @@ public class SignUpServlet extends HttpServlet {
             resp.getWriter().write("Cannot create directory with name " + login);
             return;
         }
-        AccountService.register(login, password, email);
-
+        //AccountService.register(login, password, email);
+        DBService.addUser(new UserProfile(login, password, email));
 
         req.getSession().setAttribute("login", login);
 

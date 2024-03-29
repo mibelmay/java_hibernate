@@ -1,7 +1,8 @@
 package com.example.servlet;
 
 import com.example.model.UserProfile;
-import com.example.service.AccountService;
+import com.example.service.DBService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +30,8 @@ public class LogInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        UserProfile user = AccountService.getUserByLogin(login);
+        //UserProfile user = AccountService.getUserByLogin(login);
+        UserProfile user = DBService.getUserByLogin(login);
         if (user == null) {
             resp.getWriter().write("No such user");
             return;

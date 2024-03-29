@@ -9,12 +9,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBService {
-    private final Connection connection;
+    private static final Connection connection = getConnection();
 
-    public DBService() {
-        this.connection = getConnection();
-    }
-    public void addUser(UserProfile user) {
+    public static void addUser(UserProfile user) {
         try {
             new UsersDAO(connection).insertUser(user.getLogin(), user.getPassword(), user.getEmail());
         } catch (SQLException e) {
@@ -22,7 +19,7 @@ public class DBService {
         }
     }
 
-    public UserProfile getUserByLogin(String login) {
+    public static UserProfile getUserByLogin(String login) {
         try {
             return new UsersDAO(connection).getUserByLogin(login);
         } catch (SQLException e) {
