@@ -13,6 +13,7 @@ import java.io.IOException;
 @WebServlet("/")
 public class LogInServlet extends HttpServlet {
 
+    DBService dbService = new DBService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = (String) req.getSession().getAttribute("login");
@@ -30,8 +31,7 @@ public class LogInServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
 
-        //UserProfile user = AccountService.getUserByLogin(login);
-        UserProfile user = DBService.getUserByLogin(login);
+        UserProfile user = dbService.getUserByLogin(login);
         if (user == null) {
             resp.getWriter().write("No such user");
             return;

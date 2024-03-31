@@ -1,38 +1,26 @@
 package com.example;
 
-import com.example.executor.Executor;
 import com.example.model.UserProfile;
-import org.postgresql.core.ResultHandler;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import java.sql.*;
 
 public class UsersDAO {
-    private Executor executor;
+    private Session session;
 
-    public UsersDAO(Connection connection) {
-        this.executor = new Executor(connection);
+    public UsersDAO(Session session) {
+        this.session = session;
     }
 
-    public void insertUser(String login, String password, String email) throws SQLException{
-        executor.execUpdate(
-                "insert into users (login, pass, email) values (?, ?, ?)",
-                statement -> {
-                    statement.setString(1, login);
-                    statement.setString(2, password);
-                    statement.setString(3, email);
-                });
+    public void insertUser(UserProfile user) {
+        session.save(user);
     }
 
-    public UserProfile getUserByLogin(String login) throws SQLException {
-        return executor.execQuery("select * from users where login=?",
-                (statement) -> statement.setString(1, login),
-                (resultSet) -> {
-            resultSet.next();
-            return new UserProfile(
-                    resultSet.getString("login"),
-                    resultSet.getString("pass"),
-                    resultSet.getString("email"));
-                });
+    public UserProfile getUserByLogin(String login) {
+        Criteria criteria = session.createCriteria(UserProfile.class);
+        return (UserProfile) criteria.add(Restrictions.eq("login", login)).uniqueResult();
     }
 }
 

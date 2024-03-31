@@ -13,6 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
+    DBService dbService = new DBService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = (String) req.getSession().getAttribute("login");
@@ -30,8 +31,7 @@ public class SignUpServlet extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
 
-        //if(AccountService.getUserByLogin(login) != null) {
-        if(DBService.getUserByLogin(login) != null) {
+        if(dbService.getUserByLogin(login) != null) {
             resp.getWriter().write("User with login" + login + " already exists");
             return;
         }
@@ -41,8 +41,8 @@ public class SignUpServlet extends HttpServlet {
             resp.getWriter().write("Cannot create directory with name " + login);
             return;
         }
-        //AccountService.register(login, password, email);
-        DBService.addUser(new UserProfile(login, password, email));
+
+        dbService.addUser(new UserProfile(login, password, email));
 
         req.getSession().setAttribute("login", login);
 
