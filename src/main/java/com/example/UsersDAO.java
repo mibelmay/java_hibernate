@@ -2,6 +2,7 @@ package com.example;
 
 import com.example.model.UserProfile;
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
